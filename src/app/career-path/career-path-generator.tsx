@@ -15,10 +15,9 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { generateCareerPaths, type CareerPathOutput } from '@/ai/flows/generate-career-paths';
-import { exploreCareerPathDetails, type ExploreCareerPathDetailsOutput } from '@/ai/flows/explore-career-path-details';
-import { Loader2, Lightbulb, Zap, LineChart } from 'lucide-react';
-import { Roadmap } from './roadmap';
+import { generateCareerPaths } from '@/ai/flows/generate-career-paths';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 
 const careerFormSchema = z.object({
@@ -30,10 +29,7 @@ const careerFormSchema = z.object({
 export function CareerPathGenerator() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [isDetailsLoading, setIsDetailsLoading] = useState(false);
-  const [careerPaths, setCareerPaths] = useState<CareerPathOutput | null>(null);
-  const [pathDetails, setPathDetails] = useState<ExploreCareerPathDetailsOutput | null>(null);
-  const [activePath, setActivePath] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof careerFormSchema>>({
     resolver: zodResolver(careerFormSchema),
@@ -42,14 +38,17 @@ export function CareerPathGenerator() {
 
   const onSubmit = async (values: z.infer<typeof careerFormSchema>) => {
     setIsLoading(true);
-    setCareerPaths(null);
-    setPathDetails(null);
-    setActivePath(null);
 
     try {
       const skillsArray = values.skills.split(',').map(s => s.trim()).filter(Boolean);
       const result = await generateCareerPaths({ ...values, skills: skillsArray });
-      setCareerPaths(result);
+      
+      // Store result in localStorage to be read by the tree view page
+      localStorage.setItem('careerPathsResult', JSON.stringify(result));
+      localStorage.setItem('userSkills', JSON.stringify(skillsArray));
+
+      router.push('/career-path/tree');
+
     } catch (error) {
       console.error(error);
       toast({
@@ -61,36 +60,6 @@ export function CareerPathGenerator() {
       setIsLoading(false);
     }
   };
-
-  const onPathClick = async (title: string) => {
-    // If the user clicks the same path again, hide the details
-    if (activePath === title) {
-        setActivePath(null);
-        setPathDetails(null);
-        return;
-    }
-    
-    setActivePath(title);
-    setIsDetailsLoading(true);
-    setPathDetails(null);
-
-    try {
-        const skills = form.getValues('skills').split(',').map(s => s.trim()).filter(Boolean);
-        const result = await exploreCareerPathDetails({ careerPath: title, userSkills: skills });
-        setPathDetails(result);
-    } catch (error) {
-        console.error(error);
-        toast({
-            variant: 'destructive',
-            title: 'Error Fetching Details',
-            description: 'Could not load details for this career path.',
-        });
-    } finally {
-        setIsDetailsLoading(false);
-    }
-  };
-  
-  const ICONS = [<Lightbulb />, <Zap />, <LineChart />];
 
   return (
     <div className="space-y-8">
@@ -149,47 +118,6 @@ export function CareerPathGenerator() {
           </Form>
         </CardContent>
       </Card>
-
-      {careerPaths && (
-        <div>
-            <h2 className="text-2xl font-bold font-headline text-center mb-8">Your Suggested Career Paths</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {careerPaths.careerPaths.map((path, index) => (
-                <Card 
-                    key={path.title} 
-                    className="cursor-pointer hover:shadow-accent/20 hover:shadow-lg transition-all" 
-                    onClick={() => onPathClick(path.title)}
-                    data-active={activePath === path.title}
-                >
-                    <CardHeader className='flex-row items-center gap-4'>
-                        <span className="p-3 bg-accent/20 rounded-lg text-accent">{ICONS[index % ICONS.length]}</span>
-                        <div>
-                            <CardTitle className="font-headline text-lg">{path.title}</CardTitle>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-sm text-muted-foreground">{path.description}</p>
-                    </CardContent>
-                </Card>
-            ))}
-            </div>
-        </div>
-      )}
-
-      {activePath && (
-        <div className="mt-8">
-            <h2 className="text-2xl font-bold font-headline text-center mb-4">Roadmap for: <span className="text-primary">{activePath}</span></h2>
-            {isDetailsLoading && (
-                <div className="flex justify-center items-center p-8">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    <p className="ml-4 text-muted-foreground">Building your roadmap...</p>
-                </div>
-            )}
-            {pathDetails && pathDetails.roadmap && (
-                <Roadmap roadmap={pathDetails.roadmap} />
-            )}
-        </div>
-      )}
     </div>
   );
 }
