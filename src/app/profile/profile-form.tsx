@@ -73,27 +73,29 @@ export function ProfileForm() {
             <CardDescription>Upload your resume to autofill or enter details manually.</CardDescription>
         </CardHeader>
       <CardContent>
-        <div className="mb-6">
-          <FormLabel>Upload Resume</FormLabel>
-          <div className="mt-2 flex items-center justify-center w-full">
-            <label htmlFor="resume-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-muted hover:bg-secondary">
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <Upload className="w-8 h-8 mb-3 text-muted-foreground" />
-                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                <p className="text-xs text-muted-foreground">PDF, DOCX (MAX. 5MB)</p>
-              </div>
-              <input id="resume-upload" type="file" className="hidden" onChange={handleFileChange} accept=".pdf,.doc,.docx" />
-            </label>
-          </div>
-          {fileName && (
-              <div className="mt-4 flex items-center justify-center text-sm text-muted-foreground bg-secondary p-3 rounded-md">
-                <FileText className="w-4 h-4 mr-2"/>
-                <span>{fileName}</span>
-              </div>
-            )}
-        </div>
-
         <Form {...form}>
+          <div className="mb-6">
+            <FormItem>
+              <FormLabel>Upload Resume</FormLabel>
+              <div className="mt-2 flex items-center justify-center w-full">
+                <label htmlFor="resume-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-muted hover:bg-secondary">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <Upload className="w-8 h-8 mb-3 text-muted-foreground" />
+                    <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                    <p className="text-xs text-muted-foreground">PDF, DOCX (MAX. 5MB)</p>
+                  </div>
+                  <input id="resume-upload" type="file" className="hidden" onChange={handleFileChange} accept=".pdf,.doc,.docx" />
+                </label>
+              </div>
+              {fileName && (
+                  <div className="mt-4 flex items-center justify-center text-sm text-muted-foreground bg-secondary p-3 rounded-md">
+                    <FileText className="w-4 h-4 mr-2"/>
+                    <span>{fileName}</span>
+                  </div>
+                )}
+            </FormItem>
+          </div>
+
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
