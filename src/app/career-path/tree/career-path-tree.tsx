@@ -53,8 +53,8 @@ export function CareerPathTree({ data, userSkills }: CareerPathTreeProps) {
   
   return (
     <div className="flex h-full">
-      {/* Sidebar - 20% */}
-      <aside className="w-[20%] border-r border-border p-6 overflow-y-auto">
+      {/* Sidebar - 25% */}
+      <aside className="w-[25%] border-r border-border p-6 overflow-y-auto">
         <h2 className="text-xl font-bold font-headline mb-4">Suggested Paths</h2>
         <div className="space-y-4">
           {data.careerPaths.map((path) => (
@@ -75,8 +75,8 @@ export function CareerPathTree({ data, userSkills }: CareerPathTreeProps) {
         </div>
       </aside>
 
-      {/* Main Content Area - 80% */}
-      <main className="w-[80%] p-8 overflow-y-auto">
+      {/* Main Content Area - 75% */}
+      <main className="w-[75%] p-8 overflow-y-auto">
         {isLoading && (
             <div className="flex items-center justify-center h-full">
                 <Loader2 className="h-12 w-12 animate-spin text-primary" />
