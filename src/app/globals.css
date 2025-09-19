@@ -5,7 +5,7 @@
 @layer base {
   :root {
     --background: 205 92% 94%; /* #E3F2FD */
-    --background-start-rgb: 227, 242, 253;
+    --background-start-rgb: 191, 219, 254;
     --background-end-rgb: 255, 255, 255;
     --foreground: 222 47% 11%;
     --card: 0 0% 100%;
