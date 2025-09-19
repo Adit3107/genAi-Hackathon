@@ -11,11 +11,6 @@ export default function Home() {
 
   return (
     <div className="container mx-auto px-4 py-16 sm:py-24">
-       <div className="absolute inset-0 -z-10 h-full w-full bg-background">
-        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-        <div className="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#3B82F633,transparent)]"></div>
-        <div className="absolute right-[-5%] top-[20%] h-[800px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#EC489933,transparent)]"></div>
-      </div>
       <section className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
         <div className="space-y-6 text-center lg:text-left">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-headline tracking-tighter h-36 lg:h-44">
