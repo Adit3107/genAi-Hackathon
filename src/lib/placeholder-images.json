@@ -1,3 +1,16 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "home-hero",
+      "description": "A person looking at a digital career map on a large transparent screen.",
+      "imageUrl": "https://picsum.photos/seed/home-hero/1200/800",
+      "imageHint": "career map"
+    },
+    {
+      "id": "profile-avatar",
+      "description": "A professional headshot of a person.",
+      "imageUrl": "https://picsum.photos/seed/avatar/200/200",
+      "imageHint": "professional headshot"
+    }
+  ]
 }
