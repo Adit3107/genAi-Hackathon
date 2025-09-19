@@ -5,6 +5,8 @@
 @layer base {
   :root {
     --background: 205 92% 94%; /* #E3F2FD */
+    --background-start-rgb: 227, 242, 253;
+    --background-end-rgb: 255, 255, 255;
     --foreground: 222 47% 11%;
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
@@ -41,6 +43,8 @@
 
   .dark {
     --background: 222 47% 11%;
+    --background-start-rgb: 222, 47%, 11%;
+    --background-end-rgb: 222, 47%, 11%;
     --foreground: 0 0% 98%;
     --card: 222 47% 15%;
     --card-foreground: 0 0% 98%;
@@ -80,6 +84,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    background-image: linear-gradient(to bottom, rgb(var(--background-start-rgb)), rgb(var(--background-end-rgb)));
+    color: hsl(var(--foreground));
   }
 }
