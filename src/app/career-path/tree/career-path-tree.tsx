@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Card,
   CardDescription,
@@ -25,10 +25,8 @@ export function CareerPathTree({ data, userSkills }: CareerPathTreeProps) {
   const { toast } = useToast();
 
   const handlePathClick = async (careerPath: string) => {
-    if (selectedPath === careerPath) {
-        // If the same path is clicked again, you could choose to collapse it
-        // setSelectedPath(null);
-        // setRoadmap(null);
+    if (selectedPath === careerPath && !isLoading) {
+        // If the same path is clicked again and we are not loading, do nothing
         return;
     }
     
@@ -50,6 +48,13 @@ export function CareerPathTree({ data, userSkills }: CareerPathTreeProps) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (data?.careerPaths?.length > 0) {
+      handlePathClick(data.careerPaths[0].title);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
   
   return (
     <div className="flex h-full">
