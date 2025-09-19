@@ -17,8 +17,9 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { generateCareerPaths, type CareerPathOutput } from '@/ai/flows/generate-career-paths';
 import { exploreCareerPathDetails, type ExploreCareerPathDetailsOutput } from '@/ai/flows/explore-career-path-details';
-import { Loader2, ArrowRight, Lightbulb, Zap, LineChart } from 'lucide-react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Loader2, Lightbulb, Zap, LineChart } from 'lucide-react';
+import { Roadmap } from './roadmap';
+
 
 const careerFormSchema = z.object({
   skills: z.string().min(3, 'Please list at least one skill.'),
@@ -62,6 +63,13 @@ export function CareerPathGenerator() {
   };
 
   const onPathClick = async (title: string) => {
+    // If the user clicks the same path again, hide the details
+    if (activePath === title) {
+        setActivePath(null);
+        setPathDetails(null);
+        return;
+    }
+    
     setActivePath(title);
     setIsDetailsLoading(true);
     setPathDetails(null);
@@ -147,7 +155,12 @@ export function CareerPathGenerator() {
             <h2 className="text-2xl font-bold font-headline text-center mb-8">Your Suggested Career Paths</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {careerPaths.careerPaths.map((path, index) => (
-                <Card key={path.title} className="cursor-pointer hover:shadow-accent/20 hover:shadow-lg transition-shadow" onClick={() => onPathClick(path.title)}>
+                <Card 
+                    key={path.title} 
+                    className="cursor-pointer hover:shadow-accent/20 hover:shadow-lg transition-all" 
+                    onClick={() => onPathClick(path.title)}
+                    data-active={activePath === path.title}
+                >
                     <CardHeader className='flex-row items-center gap-4'>
                         <span className="p-3 bg-accent/20 rounded-lg text-accent">{ICONS[index % ICONS.length]}</span>
                         <div>
@@ -172,21 +185,8 @@ export function CareerPathGenerator() {
                     <p className="ml-4 text-muted-foreground">Building your roadmap...</p>
                 </div>
             )}
-            {pathDetails && (
-                <Card>
-                    <CardContent className="p-6">
-                        <Accordion type="single" collapsible defaultValue="item-1">
-                            <AccordionItem value="item-1">
-                                <AccordionTrigger className="text-lg font-semibold">View Detailed Path</AccordionTrigger>
-                                <AccordionContent>
-                                    <div className="prose prose-sm max-w-none whitespace-pre-wrap text-foreground">
-                                        {pathDetails.careerPathDetails}
-                                    </div>
-                                </AccordionContent>
-                            </AccordionItem>
-                        </Accordion>
-                    </CardContent>
-                </Card>
+            {pathDetails && pathDetails.roadmap && (
+                <Roadmap roadmap={pathDetails.roadmap} />
             )}
         </div>
       )}
