@@ -5,6 +5,7 @@ export type Job = {
   location: string;
   type: 'Full-time' | 'Part-time' | 'Contract' | 'Internship';
   experienceLevel: 'Entry' | 'Mid' | 'Senior';
+  degree: "Bachelor's" | "Master's" | "PhD" | "Associate's";
   skills: string[];
   description: string;
 };
@@ -17,9 +18,10 @@ export const JOBS: Job[] = [
     location: 'San Francisco, CA',
     type: 'Full-time',
     experienceLevel: 'Mid',
+    degree: "Bachelor's",
     skills: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS'],
     description:
-      'Join our team to build beautiful and performant user interfaces for our next-generation platform.',
+      '3 years of experience building beautiful and performant user interfaces.',
   },
   {
     id: 2,
@@ -28,9 +30,10 @@ export const JOBS: Job[] = [
     location: 'New York, NY',
     type: 'Full-time',
     experienceLevel: 'Senior',
+    degree: "Bachelor's",
     skills: ['Node.js', 'Go', 'PostgreSQL', 'Docker', 'Kubernetes'],
     description:
-      'We are looking for an experienced backend engineer to design, build, and maintain our scalable microservices architecture.',
+      '5+ years of experience designing, building, and maintaining scalable microservices.',
   },
   {
     id: 3,
@@ -39,9 +42,10 @@ export const JOBS: Job[] = [
     location: 'Remote',
     type: 'Contract',
     experienceLevel: 'Mid',
+    degree: "Associate's",
     skills: ['Figma', 'Sketch', 'Adobe XD', 'User Research'],
     description:
-      'Help shape the user experience of our products by creating intuitive and visually appealing designs.',
+      'A strong portfolio showcasing your user-centered design process.',
   },
   {
     id: 4,
@@ -50,9 +54,10 @@ export const JOBS: Job[] = [
     location: 'San Francisco, CA',
     type: 'Full-time',
     experienceLevel: 'Senior',
+    degree: "Master's",
     skills: ['Agile', 'Roadmap Planning', 'Market Research'],
     description:
-      'Define the future of our product line. You will be responsible for the product planning and execution throughout the product lifecycle.',
+      'Experience defining product vision and strategy from inception to launch.',
   },
   {
     id: 5,
@@ -61,9 +66,10 @@ export const JOBS: Job[] = [
     location: 'New York, NY',
     type: 'Full-time',
     experienceLevel: 'Entry',
+    degree: "PhD",
     skills: ['Python', 'R', 'SQL', 'Machine Learning', 'TensorFlow'],
     description:
-      'Analyze large amounts of complex raw data to find patterns and build predictive models.',
+      'Experience analyzing large amounts of complex raw data to find patterns and build predictive models.',
   },
   {
     id: 6,
@@ -72,9 +78,10 @@ export const JOBS: Job[] = [
     location: 'Austin, TX',
     type: 'Full-time',
     experienceLevel: 'Mid',
+    degree: "Bachelor's",
     skills: ['AWS', 'Terraform', 'CI/CD', 'Jenkins'],
     description:
-      'Automate and streamline our operations and processes. Build and maintain tools for deployment, monitoring and operations.',
+      '3 years of experience in automating and streamlining operations and processes.',
   },
 ];
 
@@ -83,4 +90,7 @@ export const LOCATIONS = [
 ].sort();
 export const EXPERIENCE_LEVELS = [
   ...new Set(JOBS.map((job) => job.experienceLevel)),
+];
+export const DEGREES = [
+  ...new Set(JOBS.map((job) => job.degree)),
 ];
